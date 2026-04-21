@@ -228,6 +228,24 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
 .cover-profile{background:linear-gradient(160deg,#0D0118,#1A1A2E,#2A1A0E,#1A0A1A);background-size:120% 120%;animation:coverFloat 12s ease infinite;}
 .cover-concert{background:linear-gradient(160deg,#0D0118,#2A0850,#1A0A3E,#050010);animation:subtlePulse 6s ease infinite;}
 .cover-city{background:linear-gradient(160deg,#0A1628,#1A2A4A,#0D1E3A,#050D1A);animation:subtlePulse 8s ease infinite;}
+
+/* ── ONBOARDING COMPILE ANIMATION ───────────────────────── */
+@keyframes compileRing{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+@keyframes compileRingR{0%{transform:rotate(0)}100%{transform:rotate(-360deg)}}
+@keyframes compileCoreGlow{0%,100%{box-shadow:0 0 18px rgba(184,137,42,.45),0 0 40px rgba(107,63,160,.25)}50%{box-shadow:0 0 32px rgba(184,137,42,.75),0 0 80px rgba(107,63,160,.5)}}
+@keyframes chipStream{0%{transform:translateX(110%);opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translateX(-110%);opacity:0}}
+@keyframes barRise{0%{height:6%}50%{height:92%}100%{height:30%}}
+@keyframes sonarScanLine{0%{transform:translateY(-100%);opacity:.9}100%{transform:translateY(2000%);opacity:0}}
+@keyframes numTick{0%{transform:translateY(4px);opacity:0}100%{transform:translateY(0);opacity:1}}
+@keyframes pulseGlowBig{0%,100%{box-shadow:0 0 0 0 rgba(184,137,42,.55)}50%{box-shadow:0 0 0 20px rgba(184,137,42,0)}}
+@keyframes popupIn{0%{opacity:0;transform:scale(.85) translateY(30px)}60%{transform:scale(1.02) translateY(-4px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes popupBackdrop{from{opacity:0}to{opacity:1}}
+@keyframes pingRing{0%{transform:scale(.4);opacity:.8}100%{transform:scale(2.4);opacity:0}}
+@keyframes sonarWave{0%{r:10;opacity:.9}100%{r:60;opacity:0}}
+@keyframes dnaRotX{0%{transform:rotateX(0) rotateY(0)}100%{transform:rotateX(360deg) rotateY(360deg)}}
+@keyframes pctTick{0%{opacity:0;transform:scale(.6)}60%{opacity:1;transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+.compile-chip{position:absolute;left:0;top:var(--y,10px);background:rgba(255,255,255,.08);border:1px solid rgba(184,137,42,.35);color:#f0d898;border-radius:8px;padding:3px 9px;font-size:10px;font-weight:600;letter-spacing:.3px;white-space:nowrap;animation:chipStream var(--d,3.5s) linear infinite var(--delay,0s);text-shadow:0 0 8px rgba(184,137,42,.4);}
 </style>
 </head>
 <body>
@@ -494,21 +512,173 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
     <button onclick="obNext('ob-building')" style="width:100%;height:52px;background:var(--gold);border:none;border-radius:15px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#1A1A2E;cursor:pointer;">allow all and continue</button>
   </div>
 
-  <!-- STEP 4: BUILDING PROFILE -->
-  <div id="ob-building" style="display:none;position:relative;z-index:1;text-align:center;width:100%;padding:0 28px;">
-    <div style="font-size:48px;margin-bottom:16px;animation:float 2s ease-in-out infinite;">🎭</div>
-    <div style="font-family:'Instrument Serif',serif;font-size:30px;font-weight:700;color:white;margin-bottom:8px;">building your sonic identity</div>
-    <div style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:36px;">this only happens once. we are reading 12 months of listening data.</div>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:36px;" id="ob-build-steps"></div>
-    <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:16px;text-align:left;border:1px solid rgba(255,255,255,.1);">
-      <div style="font-size:10px;color:rgba(184,137,42,.7);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;">sonar found</div>
-      <div style="display:flex;gap:16px;">
-        <div style="text-align:center;"><div style="font-family:'Instrument Serif',serif;font-size:28px;font-weight:700;color:var(--gold);">847</div><div style="font-size:10px;color:rgba(255,255,255,.4);">artists</div></div>
-        <div style="text-align:center;"><div style="font-family:'Instrument Serif',serif;font-size:28px;font-weight:700;color:var(--gold);">12</div><div style="font-size:10px;color:rgba(255,255,255,.4);">genres</div></div>
-        <div style="text-align:center;"><div style="font-family:'Instrument Serif',serif;font-size:28px;font-weight:700;color:var(--gold);">94h</div><div style="font-size:10px;color:rgba(255,255,255,.4);">monthly</div></div>
-        <div style="text-align:center;"><div style="font-family:'Instrument Serif',serif;font-size:28px;font-weight:700;color:var(--gold);">#0031</div><div style="font-size:10px;color:rgba(255,255,255,.4);">archetype</div></div>
+  <!-- STEP 4: BUILDING PROFILE — DATA COMPILATION ANIMATION -->
+  <div id="ob-building" style="display:none;position:relative;z-index:1;text-align:center;width:100%;padding:0 22px;">
+    <div style="font-size:9px;color:rgba(184,137,42,.75);letter-spacing:3px;text-transform:uppercase;margin-bottom:10px;">sonar · compiling</div>
+    <div style="font-family:'Instrument Serif',serif;font-size:26px;font-weight:700;color:white;line-height:1.15;margin-bottom:4px;">reading 12 months of sound</div>
+    <div id="ob-stage-label" style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:14px;letter-spacing:.2px;min-height:14px;">initialising archive...</div>
+
+    <!-- CENTRAL CORE: rotating rings + DNA + scanning streams of artist names -->
+    <div style="position:relative;width:100%;height:240px;margin:0 auto 16px;border-radius:18px;background:radial-gradient(ellipse at center,rgba(184,137,42,.14) 0%,rgba(107,63,160,.05) 45%,transparent 75%);overflow:hidden;border:1px solid rgba(255,255,255,.06);">
+      <!-- grid texture -->
+      <svg width="100%" height="100%" viewBox="0 0 340 240" style="position:absolute;inset:0;opacity:.25;">
+        <defs>
+          <pattern id="obGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(184,137,42,.35)" stroke-width=".4"/>
+          </pattern>
+        </defs>
+        <rect width="340" height="240" fill="url(#obGrid)"/>
+      </svg>
+      <!-- scan line sweeping top to bottom -->
+      <div style="position:absolute;left:0;right:0;top:0;height:2px;background:linear-gradient(90deg,transparent,rgba(184,137,42,.9),rgba(107,63,160,.7),transparent);animation:sonarScanLine 2.8s ease-in-out infinite;box-shadow:0 0 12px rgba(184,137,42,.6);"></div>
+
+      <!-- LEFT COLUMN: flying artist chips -->
+      <div style="position:absolute;left:0;top:14px;right:52%;bottom:14px;overflow:hidden;">
+        <div class="compile-chip" style="--y:8px;--d:3.4s;--delay:0s;">Drake</div>
+        <div class="compile-chip" style="--y:32px;--d:3.8s;--delay:.6s;">PARTYNEXTDOOR</div>
+        <div class="compile-chip" style="--y:56px;--d:3.2s;--delay:1.2s;">Kettama</div>
+        <div class="compile-chip" style="--y:80px;--d:4.0s;--delay:.3s;">Pawsa</div>
+        <div class="compile-chip" style="--y:104px;--d:3.6s;--delay:1.6s;">Snow Strippers</div>
+        <div class="compile-chip" style="--y:128px;--d:3.9s;--delay:.9s;">The Weeknd</div>
+        <div class="compile-chip" style="--y:152px;--d:3.3s;--delay:2.1s;">Somewhen</div>
+        <div class="compile-chip" style="--y:176px;--d:3.7s;--delay:.2s;">2hollis</div>
+        <div class="compile-chip" style="--y:200px;--d:3.5s;--delay:1.4s;">Kiki Valjiic</div>
+      </div>
+
+      <!-- CENTER: rotating core -->
+      <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:128px;height:128px;">
+        <!-- outer ring -->
+        <div style="position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(184,137,42,.5);animation:compileRing 8s linear infinite;"></div>
+        <!-- mid ring -->
+        <div style="position:absolute;inset:14px;border-radius:50%;border:1px solid rgba(107,63,160,.45);border-top-color:rgba(107,63,160,.9);animation:compileRingR 4s linear infinite;"></div>
+        <!-- inner ring -->
+        <div style="position:absolute;inset:28px;border-radius:50%;border:1px solid rgba(184,137,42,.35);border-right-color:rgba(184,137,42,.95);animation:compileRing 2.2s linear infinite;"></div>
+        <!-- sonar waves -->
+        <svg width="128" height="128" viewBox="0 0 128 128" style="position:absolute;inset:0;">
+          <circle cx="64" cy="64" r="10" fill="none" stroke="rgba(184,137,42,.9)" stroke-width="1.5" style="animation:sonarWave 2.4s ease-out infinite;"/>
+          <circle cx="64" cy="64" r="10" fill="none" stroke="rgba(107,63,160,.8)" stroke-width="1.2" style="animation:sonarWave 2.4s ease-out infinite .8s;"/>
+          <circle cx="64" cy="64" r="10" fill="none" stroke="rgba(184,137,42,.5)" stroke-width="1" style="animation:sonarWave 2.4s ease-out infinite 1.6s;"/>
+        </svg>
+        <!-- core -->
+        <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;background:radial-gradient(circle,#f0d898 0%,#B8892A 55%,#6B3FA0 100%);animation:compileCoreGlow 2.6s ease-in-out infinite,breathe 3s ease-in-out infinite;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:22px;font-weight:700;color:#1A1A2E;">
+          <span id="ob-core-symbol">◐</span>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: genre bars filling -->
+      <div style="position:absolute;right:8px;top:18px;bottom:18px;width:42%;display:flex;gap:5px;align-items:flex-end;justify-content:flex-end;padding-right:6px;">
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;"><div style="width:8px;flex:1;background:linear-gradient(180deg,transparent,rgba(255,255,255,.05));border-radius:4px;position:relative;overflow:hidden;"><div style="position:absolute;bottom:0;left:0;right:0;height:62%;background:linear-gradient(180deg,#f0d898,#B8892A);border-radius:4px;animation:barRise 2.5s ease-in-out infinite;"></div></div><div style="font-size:7px;color:rgba(255,255,255,.4);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.4px;">r&amp;b</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;"><div style="width:8px;flex:1;background:linear-gradient(180deg,transparent,rgba(255,255,255,.05));border-radius:4px;position:relative;overflow:hidden;"><div style="position:absolute;bottom:0;left:0;right:0;height:48%;background:linear-gradient(180deg,#c4a6ff,#6B3FA0);border-radius:4px;animation:barRise 2.8s ease-in-out infinite .3s;"></div></div><div style="font-size:7px;color:rgba(255,255,255,.4);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.4px;">techno</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;"><div style="width:8px;flex:1;background:linear-gradient(180deg,transparent,rgba(255,255,255,.05));border-radius:4px;position:relative;overflow:hidden;"><div style="position:absolute;bottom:0;left:0;right:0;height:74%;background:linear-gradient(180deg,#f0d898,#B8892A);border-radius:4px;animation:barRise 2.3s ease-in-out infinite .6s;"></div></div><div style="font-size:7px;color:rgba(255,255,255,.4);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.4px;">hip-hop</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;"><div style="width:8px;flex:1;background:linear-gradient(180deg,transparent,rgba(255,255,255,.05));border-radius:4px;position:relative;overflow:hidden;"><div style="position:absolute;bottom:0;left:0;right:0;height:40%;background:linear-gradient(180deg,#60c4ff,#1A6494);border-radius:4px;animation:barRise 3s ease-in-out infinite .9s;"></div></div><div style="font-size:7px;color:rgba(255,255,255,.4);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.4px;">house</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;"><div style="width:8px;flex:1;background:linear-gradient(180deg,transparent,rgba(255,255,255,.05));border-radius:4px;position:relative;overflow:hidden;"><div style="position:absolute;bottom:0;left:0;right:0;height:56%;background:linear-gradient(180deg,#ff6b4a,#c8352a);border-radius:4px;animation:barRise 2.6s ease-in-out infinite 1.2s;"></div></div><div style="font-size:7px;color:rgba(255,255,255,.4);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.4px;">hyperpop</div></div>
+        <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;height:100%;"><div style="width:8px;flex:1;background:linear-gradient(180deg,transparent,rgba(255,255,255,.05));border-radius:4px;position:relative;overflow:hidden;"><div style="position:absolute;bottom:0;left:0;right:0;height:34%;background:linear-gradient(180deg,#6ee7a8,#1A7A4A);border-radius:4px;animation:barRise 2.9s ease-in-out infinite 1.5s;"></div></div><div style="font-size:7px;color:rgba(255,255,255,.4);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.4px;">soul</div></div>
+      </div>
+
+      <!-- BPM waveform strip bottom -->
+      <div style="position:absolute;left:10px;right:10px;bottom:6px;height:18px;display:flex;align-items:flex-end;gap:1.5px;justify-content:center;opacity:.85;">
+        <div class="npb" style="height:5px;background:rgba(184,137,42,.75);"></div>
+        <div class="npb" style="height:9px;background:rgba(184,137,42,.75);"></div>
+        <div class="npb" style="height:13px;background:rgba(184,137,42,.9);"></div>
+        <div class="npb" style="height:7px;background:rgba(107,63,160,.8);"></div>
+        <div class="npb" style="height:15px;background:rgba(184,137,42,.95);"></div>
+        <div class="npb" style="height:6px;background:rgba(107,63,160,.75);"></div>
+        <div class="npb" style="height:11px;background:rgba(184,137,42,.85);"></div>
+        <div class="npb" style="height:14px;background:rgba(107,63,160,.9);"></div>
+        <div class="npb" style="height:8px;background:rgba(184,137,42,.75);"></div>
+        <div class="npb" style="height:12px;background:rgba(184,137,42,.85);"></div>
+        <div class="npb" style="height:6px;background:rgba(107,63,160,.7);"></div>
+        <div class="npb" style="height:10px;background:rgba(184,137,42,.9);"></div>
       </div>
     </div>
+
+    <!-- STAGE STEPS (compact) -->
+    <div id="ob-build-steps" style="display:flex;flex-direction:column;gap:5px;margin-bottom:14px;text-align:left;min-height:24px;"></div>
+
+    <!-- COUNTERS THAT TICK UP -->
+    <div style="background:rgba(255,255,255,.06);border-radius:12px;padding:12px;text-align:left;border:1px solid rgba(255,255,255,.1);">
+      <div style="font-size:9px;color:rgba(184,137,42,.75);letter-spacing:1.8px;text-transform:uppercase;margin-bottom:8px;display:flex;justify-content:space-between;"><span>sonar found</span><span id="ob-progress-pct" style="color:rgba(255,255,255,.4);">0%</span></div>
+      <div style="display:flex;gap:12px;">
+        <div style="flex:1;text-align:center;"><div id="ob-n-artists" style="font-family:'Instrument Serif',serif;font-size:24px;font-weight:700;color:var(--gold);line-height:1;">0</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;">artists</div></div>
+        <div style="flex:1;text-align:center;"><div id="ob-n-genres" style="font-family:'Instrument Serif',serif;font-size:24px;font-weight:700;color:#c4a6ff;line-height:1;">0</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;">genres</div></div>
+        <div style="flex:1;text-align:center;"><div id="ob-n-hours" style="font-family:'Instrument Serif',serif;font-size:24px;font-weight:700;color:#60c4ff;line-height:1;">0h</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;">monthly</div></div>
+        <div style="flex:1;text-align:center;"><div id="ob-n-arch" style="font-family:'Instrument Serif',serif;font-size:20px;font-weight:700;color:#6ee7a8;line-height:1.15;">—</div><div style="font-size:9px;color:rgba(255,255,255,.4);margin-top:2px;">archetype</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOP MATCH POPUP (shown after onboarding, before app) ══ -->
+<div id="topMatchPopup" style="display:none;position:fixed;inset:0;z-index:600;background:rgba(10,4,30,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;padding:24px;animation:popupBackdrop .4s ease both;">
+  <!-- Dismiss button -->
+  <div onclick="closeTopMatchPopup()" style="position:absolute;top:22px;right:22px;width:36px;height:36px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;">
+    <span style="font-size:16px;color:rgba(255,255,255,.6);">✕</span>
+  </div>
+
+  <div style="position:relative;width:100%;max-width:340px;animation:popupIn .7s cubic-bezier(.4,0,.2,1) both;">
+    <!-- Label -->
+    <div style="text-align:center;margin-bottom:18px;">
+      <div style="display:inline-flex;align-items:center;gap:6px;background:rgba(184,137,42,.14);border:1px solid rgba(184,137,42,.35);border-radius:20px;padding:5px 13px;">
+        <div style="width:6px;height:6px;border-radius:50%;background:var(--gold);animation:pulse 1.4s ease infinite;"></div>
+        <span style="font-size:10px;color:var(--gold);font-weight:700;letter-spacing:2.4px;text-transform:uppercase;">your top match</span>
+      </div>
+    </div>
+
+    <!-- Avatars with connection -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;position:relative;height:96px;">
+      <!-- radar ring around Zara -->
+      <div style="position:absolute;left:62%;top:50%;transform:translate(-50%,-50%);width:150px;height:150px;">
+        <div style="position:absolute;inset:0;border-radius:50%;border:1px solid rgba(184,137,42,.4);animation:pingRing 2.6s ease-out infinite;"></div>
+        <div style="position:absolute;inset:0;border-radius:50%;border:1px solid rgba(184,137,42,.3);animation:pingRing 2.6s ease-out infinite .9s;"></div>
+        <div style="position:absolute;inset:0;border-radius:50%;border:1px solid rgba(107,63,160,.3);animation:pingRing 2.6s ease-out infinite 1.6s;"></div>
+      </div>
+
+      <!-- Tommy -->
+      <div style="position:relative;z-index:2;">
+        <div style="width:68px;height:68px;border-radius:20px;background:linear-gradient(135deg,#B8892A,#1A1A2E,#8B6914);background-size:200% 200%;animation:gradientShift 6s ease infinite;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:28px;font-weight:700;color:#f0d898;border:2px solid rgba(184,137,42,.6);box-shadow:0 0 24px rgba(184,137,42,.35);">T</div>
+        <div style="text-align:center;font-size:10px;color:rgba(255,255,255,.5);margin-top:5px;">you</div>
+      </div>
+
+      <!-- Connection line -->
+      <svg width="56" height="40" viewBox="0 0 56 40" style="position:relative;z-index:1;">
+        <defs>
+          <linearGradient id="tmpLine" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="0%" stop-color="#B8892A"/><stop offset="100%" stop-color="#c4a6ff"/>
+          </linearGradient>
+        </defs>
+        <line x1="0" y1="20" x2="56" y2="20" stroke="url(#tmpLine)" stroke-width="1.5" stroke-dasharray="3 2" opacity=".7"/>
+        <circle cx="28" cy="20" r="3" fill="#f0d898" style="animation:pulse 1.2s ease infinite;"/>
+      </svg>
+
+      <!-- Zara -->
+      <div style="position:relative;z-index:2;">
+        <div style="width:84px;height:84px;border-radius:24px;background:linear-gradient(135deg,#4A148C,#1A0A2E,#7B1FA2);background-size:200% 200%;animation:gradientShift 5s ease infinite;display:flex;align-items:center;justify-content:center;font-family:'Instrument Serif',serif;font-size:36px;font-weight:700;color:#c4a6ff;border:2.5px solid rgba(196,166,255,.55);box-shadow:0 0 32px rgba(107,63,160,.55);">Z</div>
+        <div style="text-align:center;font-size:10px;color:rgba(255,255,255,.5);margin-top:5px;">Zara</div>
+      </div>
+    </div>
+
+    <!-- Match percentage -->
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="display:inline-flex;align-items:baseline;gap:2px;animation:pctTick .9s cubic-bezier(.2,1.5,.5,1) both .4s;">
+        <span class="serif" style="font-size:72px;font-weight:900;line-height:1;background:linear-gradient(135deg,#f0d898,#c8a96e,#c4a6ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">94</span>
+        <span class="serif" style="font-size:32px;font-weight:700;color:rgba(184,137,42,.7);">%</span>
+      </div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5);letter-spacing:1.5px;text-transform:uppercase;margin-top:-2px;">sonic compatibility</div>
+    </div>
+
+    <!-- Name + preview -->
+    <div style="text-align:center;margin-bottom:18px;">
+      <div class="serif" style="font-size:22px;font-weight:700;color:white;margin-bottom:4px;">Zara Ahmed</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.55);line-height:1.55;">0.4 miles away · online now<br>shared on <span style="color:#f0d898;font-weight:600;">GREEDY</span> · same PND + Kettama rotation</div>
+    </div>
+
+    <!-- Actions -->
+    <button onclick="openTopMatchReveal()" style="width:100%;height:54px;background:linear-gradient(135deg,#B8892A,#c4a6ff);border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#1A1A2E;cursor:pointer;margin-bottom:10px;animation:pulseGlowBig 2.4s ease-out infinite;">
+      see your match
+    </button>
+    <button onclick="closeTopMatchPopup()" style="width:100%;height:44px;background:transparent;border:1px solid rgba(255,255,255,.15);border-radius:14px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);cursor:pointer;">
+      explore the map first
+    </button>
   </div>
 </div>
 
@@ -944,23 +1114,101 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
     <radialGradient id="rg-b" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#B8892A" stop-opacity=".7"/><stop offset="100%" stop-color="#B8892A" stop-opacity="0"/></radialGradient>
     <radialGradient id="rg-c" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#6B3FA0" stop-opacity=".6"/><stop offset="100%" stop-color="#6B3FA0" stop-opacity="0"/></radialGradient>
     <radialGradient id="rg-u" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#1A1A2E" stop-opacity=".2"/><stop offset="100%" stop-color="#1A1A2E" stop-opacity="0"/></radialGradient>
-    <pattern id="gp" width="44" height="44" patternUnits="userSpaceOnUse"><rect width="44" height="44" fill="#F0EDE6"/><rect width="38" height="38" rx="3" fill="#E8E4DA" opacity=".7"/></pattern>
+    <!-- richer city-block pattern: buildings with window-line texture -->
+    <pattern id="gp" width="22" height="22" patternUnits="userSpaceOnUse">
+      <rect width="22" height="22" fill="#E8E1D1"/>
+      <rect x="1.5" y="1.5" width="19" height="19" rx="2" fill="#D4CBB5" opacity=".85"/>
+      <rect x="1.5" y="1.5" width="19" height="19" rx="2" fill="none" stroke="#B8A882" stroke-width=".35" opacity=".6"/>
+    </pattern>
+    <pattern id="gp2" width="34" height="34" patternUnits="userSpaceOnUse">
+      <rect width="34" height="34" fill="transparent"/>
+      <rect x="2" y="2" width="13" height="13" rx="1.5" fill="#CFC4AA" opacity=".7"/>
+      <rect x="18" y="2" width="14" height="9" rx="1.5" fill="#C8BD9F" opacity=".65"/>
+      <rect x="18" y="14" width="14" height="18" rx="1.5" fill="#D1C7AE" opacity=".7"/>
+      <rect x="2" y="18" width="13" height="14" rx="1.5" fill="#CBC0A3" opacity=".68"/>
+    </pattern>
+    <linearGradient id="riverGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A5C8D8"/>
+      <stop offset="100%" stop-color="#8FB4C6"/>
+    </linearGradient>
+    <linearGradient id="parkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B8D4A8"/>
+      <stop offset="100%" stop-color="#9CBF8A"/>
+    </linearGradient>
   </defs>
+  <!-- base landmass -->
+  <rect width="354" height="360" fill="#E8E1D1"/>
   <rect width="354" height="360" fill="url(#gp)"/>
-  <line x1="0" y1="88" x2="354" y2="88" stroke="#D4CFC6" stroke-width="5" opacity=".8"/>
-  <line x1="0" y1="176" x2="354" y2="176" stroke="#D4CFC6" stroke-width="5" opacity=".8"/>
-  <line x1="0" y1="264" x2="354" y2="264" stroke="#D4CFC6" stroke-width="5" opacity=".8"/>
-  <line x1="88" y1="0" x2="88" y2="360" stroke="#D4CFC6" stroke-width="4" opacity=".7"/>
-  <line x1="176" y1="0" x2="176" y2="360" stroke="#D4CFC6" stroke-width="5" opacity=".85"/>
-  <line x1="264" y1="0" x2="264" y2="360" stroke="#D4CFC6" stroke-width="4" opacity=".7"/>
-  <line x1="44" y1="0" x2="44" y2="360" stroke="#D4CFC6" stroke-width="2" opacity=".4"/>
-  <line x1="132" y1="0" x2="132" y2="360" stroke="#D4CFC6" stroke-width="2" opacity=".4"/>
-  <line x1="220" y1="0" x2="220" y2="360" stroke="#D4CFC6" stroke-width="2" opacity=".4"/>
-  <line x1="308" y1="0" x2="308" y2="360" stroke="#D4CFC6" stroke-width="2" opacity=".4"/>
-  <line x1="0" y1="132" x2="354" y2="132" stroke="#D4CFC6" stroke-width="2" opacity=".4"/>
-  <line x1="0" y1="220" x2="354" y2="220" stroke="#D4CFC6" stroke-width="2" opacity=".4"/>
-  <text x="176" y="82" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" fill="#9898A8" opacity=".8">Bedford Ave</text>
-  <text x="176" y="170" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" fill="#9898A8" opacity=".8">Metropolitan Ave</text>
+  <rect width="354" height="360" fill="url(#gp2)" opacity=".55"/>
+
+  <!-- EAST RIVER — diagonal waterway down the right side -->
+  <path d="M 328 -10 Q 310 80 316 170 Q 322 250 340 320 Q 348 352 354 360 L 354 -10 Z" fill="url(#riverGrad)" opacity=".85"/>
+  <path d="M 328 -10 Q 310 80 316 170 Q 322 250 340 320 Q 348 352 354 360" fill="none" stroke="#7AA4B8" stroke-width="1" opacity=".5"/>
+  <!-- subtle water wave lines -->
+  <path d="M 330 60 Q 334 64 338 60 T 346 60" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".8"/>
+  <path d="M 328 120 Q 332 124 336 120 T 344 120" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".8"/>
+  <path d="M 332 200 Q 336 204 340 200 T 348 200" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".8"/>
+  <path d="M 334 280 Q 338 284 342 280 T 350 280" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".8"/>
+  <text x="332" y="260" font-family="'DM Sans',sans-serif" font-size="7" font-style="italic" fill="#547488" opacity=".75" transform="rotate(80 332 260)">East River</text>
+
+  <!-- McCarren Park — green rectangle upper left -->
+  <rect x="18" y="40" width="56" height="38" rx="4" fill="url(#parkGrad)" opacity=".85"/>
+  <circle cx="34" cy="58" r="3" fill="#7AA068" opacity=".7"/>
+  <circle cx="54" cy="54" r="2.5" fill="#7AA068" opacity=".7"/>
+  <circle cx="62" cy="68" r="3.2" fill="#7AA068" opacity=".7"/>
+  <circle cx="28" cy="70" r="2.8" fill="#7AA068" opacity=".7"/>
+  <text x="46" y="62" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="6.5" font-weight="600" fill="#4D6B3E" opacity=".85">McCarren</text>
+
+  <!-- Domino Park — green sliver along river -->
+  <path d="M 300 220 Q 302 260 306 300 L 316 300 Q 312 260 310 220 Z" fill="url(#parkGrad)" opacity=".8"/>
+
+  <!-- MAJOR AVENUES (horizontal) with double-stroke road look -->
+  <line x1="0" y1="88" x2="328" y2="88" stroke="#F8F4E8" stroke-width="7"/>
+  <line x1="0" y1="88" x2="328" y2="88" stroke="#B8A882" stroke-width="8" opacity=".35"/>
+  <line x1="0" y1="88" x2="328" y2="88" stroke="#F8F4E8" stroke-width="5"/>
+  <line x1="0" y1="176" x2="322" y2="176" stroke="#F8F4E8" stroke-width="7"/>
+  <line x1="0" y1="176" x2="322" y2="176" stroke="#B8A882" stroke-width="8" opacity=".35"/>
+  <line x1="0" y1="176" x2="322" y2="176" stroke="#F8F4E8" stroke-width="5"/>
+  <line x1="0" y1="264" x2="332" y2="264" stroke="#F8F4E8" stroke-width="7"/>
+  <line x1="0" y1="264" x2="332" y2="264" stroke="#B8A882" stroke-width="8" opacity=".35"/>
+  <line x1="0" y1="264" x2="332" y2="264" stroke="#F8F4E8" stroke-width="5"/>
+
+  <!-- MAJOR STREETS (vertical) -->
+  <line x1="88" y1="0" x2="88" y2="360" stroke="#F8F4E8" stroke-width="5"/>
+  <line x1="88" y1="0" x2="88" y2="360" stroke="#B8A882" stroke-width="6" opacity=".3"/>
+  <line x1="88" y1="0" x2="88" y2="360" stroke="#F8F4E8" stroke-width="4"/>
+  <line x1="176" y1="0" x2="176" y2="360" stroke="#F8F4E8" stroke-width="7"/>
+  <line x1="176" y1="0" x2="176" y2="360" stroke="#B8A882" stroke-width="8" opacity=".4"/>
+  <line x1="176" y1="0" x2="176" y2="360" stroke="#F8F4E8" stroke-width="5.5"/>
+  <line x1="264" y1="0" x2="264" y2="360" stroke="#F8F4E8" stroke-width="5"/>
+  <line x1="264" y1="0" x2="264" y2="360" stroke="#B8A882" stroke-width="6" opacity=".3"/>
+  <line x1="264" y1="0" x2="264" y2="360" stroke="#F8F4E8" stroke-width="4"/>
+
+  <!-- SIDE STREETS (thinner) -->
+  <line x1="44" y1="0" x2="44" y2="360" stroke="#F4EEDE" stroke-width="3"/>
+  <line x1="132" y1="0" x2="132" y2="360" stroke="#F4EEDE" stroke-width="3"/>
+  <line x1="220" y1="0" x2="220" y2="360" stroke="#F4EEDE" stroke-width="3"/>
+  <line x1="308" y1="0" x2="308" y2="360" stroke="#F4EEDE" stroke-width="3"/>
+  <line x1="0" y1="44" x2="328" y2="44" stroke="#F4EEDE" stroke-width="3"/>
+  <line x1="0" y1="132" x2="322" y2="132" stroke="#F4EEDE" stroke-width="3"/>
+  <line x1="0" y1="220" x2="322" y2="220" stroke="#F4EEDE" stroke-width="3"/>
+  <line x1="0" y1="308" x2="332" y2="308" stroke="#F4EEDE" stroke-width="3"/>
+
+  <!-- BQE-style diagonal highway curve -->
+  <path d="M 0 300 Q 60 280 120 290 Q 180 298 240 280 Q 280 268 310 248" fill="none" stroke="#E8C870" stroke-width="4" opacity=".55"/>
+  <path d="M 0 300 Q 60 280 120 290 Q 180 298 240 280 Q 280 268 310 248" fill="none" stroke="#D4A830" stroke-width="1" opacity=".4" stroke-dasharray="3 2"/>
+
+  <!-- STREET LABELS -->
+  <text x="176" y="84" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="6.5" font-weight="600" fill="#7A6A48" opacity=".75">Bedford Ave</text>
+  <text x="176" y="172" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="6.5" font-weight="600" fill="#7A6A48" opacity=".75">Metropolitan Ave</text>
+  <text x="176" y="260" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="6.5" font-weight="600" fill="#7A6A48" opacity=".75">Grand St</text>
+  <text x="92" y="40" font-family="'DM Sans',sans-serif" font-size="6" fill="#7A6A48" opacity=".6">N 7th</text>
+  <text x="268" y="40" font-family="'DM Sans',sans-serif" font-size="6" fill="#7A6A48" opacity=".6">Kent Ave</text>
+
+  <!-- NEIGHBORHOOD PILL LABELS -->
+  <g opacity=".85"><rect x="18" y="14" width="58" height="13" rx="6.5" fill="#1A1A2E" opacity=".55"/><text x="47" y="22.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" font-weight="700" fill="white" letter-spacing=".4">GREENPOINT</text></g>
+  <g opacity=".85"><rect x="122" y="152" width="72" height="13" rx="6.5" fill="#1A1A2E" opacity=".55"/><text x="158" y="160.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" font-weight="700" fill="white" letter-spacing=".4">WILLIAMSBURG</text></g>
+  <g opacity=".85"><rect x="230" y="296" width="66" height="13" rx="6.5" fill="#1A1A2E" opacity=".55"/><text x="263" y="304.5" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="7" font-weight="700" fill="white" letter-spacing=".4">BUSHWICK</text></g>
   <ellipse cx="220" cy="130" rx="58" ry="52" fill="url(#rg-a)" filter="url(#bh)" style="animation:heatPulse 3s ease-in-out infinite;"/>
   <circle cx="220" cy="130" r="22" fill="none" stroke="#E85A2A" stroke-width="1.5" opacity="0" style="animation:hotspotRing 2.5s ease-out infinite;"/>
   <circle cx="220" cy="130" r="22" fill="none" stroke="#E85A2A" stroke-width="1.5" opacity="0" style="animation:hotspotRing 2.5s ease-out infinite 1.25s;"/>
@@ -1731,24 +1979,85 @@ function runSpotifyConnect(){
 }
 function runProfileBuild(){
   var el=document.getElementById('ob-build-steps');
-  var stages=['847 unique artists identified','12 genre dimensions mapped','BPM profile: 118–132 · night-elevated','sonic archetype: Night Architect #0031','22 matches found nearby'];
+  var pctEl=document.getElementById('ob-progress-pct');
+  var stageLblEl=document.getElementById('ob-stage-label');
+  var coreSym=document.getElementById('ob-core-symbol');
+  var nArt=document.getElementById('ob-n-artists');
+  var nGen=document.getElementById('ob-n-genres');
+  var nHrs=document.getElementById('ob-n-hours');
+  var nArc=document.getElementById('ob-n-arch');
+
+  // Counter animators
+  function tickCounter(node,from,to,dur,suffix){
+    if(!node) return;
+    var start=performance.now();
+    function frame(t){
+      var p=Math.min(1,(t-start)/dur);
+      var ease=1-Math.pow(1-p,3);
+      var v=Math.round(from+(to-from)*ease);
+      node.textContent=v+(suffix||'');
+      node.style.animation='numTick .18s ease';
+      if(p<1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // Stage definitions — each drives the label, a step chip, a counter, a core symbol
+  var stages=[
+    {lbl:'scanning streaming archive...',       step:'🎤 847 unique artists identified',        run:function(){tickCounter(nArt,0,847,900);}, sym:'◐', pct:18},
+    {lbl:'mapping genre dimensions...',         step:'🧬 12 genre dimensions mapped',           run:function(){tickCounter(nGen,0,12,700);},  sym:'◓', pct:38},
+    {lbl:'extracting tempo signature...',        step:'〰 BPM profile: 118–132 · night-elevated', run:function(){tickCounter(nHrs,0,94,800,'h');}, sym:'◑', pct:60},
+    {lbl:'computing sonic archetype...',        step:'🎭 archetype: Night Architect #0031',      run:function(){if(nArc)nArc.textContent='#0031';}, sym:'◒', pct:82},
+    {lbl:'locating compatible listeners...',     step:'🎯 22 matches found nearby',              run:function(){}, sym:'●', pct:100}
+  ];
+
   var i=0;
   function next(){
     if(i>=stages.length){
-        // Skip manifesto + welcome overlays — land directly in the map
-        setTimeout(function(){
-          try { sessionStorage.setItem('sonar_welcomed','1'); } catch(e){}
-          goScreen('sc-map');
-          setTimeout(function(){ showToast('📍','22 matches nearby','sorted by compatibility · updated now'); }, 500);
-          setTimeout(function(){ showToast('🎯','Zara Ahmed is 0.4mi away','94% match · online now', 4000); }, 4800);
-        }, 650);
-        return;}
-    var text=stages[i++];
-    if(el){var r=document.createElement('div');r.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 12px;background:rgba(255,255,255,.05);border-radius:10px;border:1px solid rgba(255,255,255,.08);animation:slideUp .3s ease both;';r.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1DB954" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:13px;color:rgba(255,255,255,.8);">'+text+'</span>';el.appendChild(r);}
-    setTimeout(next,600);
+      // Finish: hold for a beat, then show top match popup instead of jumping straight to map
+      if(stageLblEl) stageLblEl.textContent='sonic identity compiled';
+      setTimeout(function(){
+        try { sessionStorage.setItem('sonar_welcomed','1'); } catch(e){}
+        showTopMatchPopup();
+      }, 900);
+      return;
+    }
+    var s=stages[i++];
+    if(stageLblEl){ stageLblEl.textContent=s.lbl; stageLblEl.style.animation='none'; void stageLblEl.offsetWidth; stageLblEl.style.animation='fadeIn .35s ease both'; }
+    if(coreSym){ coreSym.textContent=s.sym; }
+    if(pctEl){ pctEl.textContent=s.pct+'%'; }
+    try{ s.run(); }catch(e){}
+    if(el){
+      var r=document.createElement('div');
+      r.style.cssText='display:flex;align-items:center;gap:9px;padding:6px 11px;background:linear-gradient(90deg,rgba(184,137,42,.1),rgba(107,63,160,.04));border-radius:9px;border:1px solid rgba(184,137,42,.18);animation:slideUp .35s ease both;';
+      r.innerHTML='<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1DB954" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg><span style="font-size:11.5px;color:rgba(255,255,255,.82);letter-spacing:.1px;">'+s.step+'</span>';
+      el.appendChild(r);
+      // keep only last 3 steps visible so it stays compact
+      while(el.children.length>3){ el.removeChild(el.firstChild); }
+    }
+    setTimeout(next,900);
   }
-  setTimeout(next,300);
+  setTimeout(next,400);
 }
+
+// ── TOP MATCH POPUP ────────────────────────────────────────────
+window.showTopMatchPopup=function(){
+  var p=document.getElementById('topMatchPopup');
+  if(!p) return;
+  p.style.display='flex';
+  try{ if(window.navigator && window.navigator.vibrate) window.navigator.vibrate([60,40,60]); }catch(e){}
+};
+window.closeTopMatchPopup=function(){
+  var p=document.getElementById('topMatchPopup');
+  if(p) p.style.display='none';
+  goScreen('sc-map');
+  setTimeout(function(){ showToast('📍','22 matches nearby','sorted by compatibility · updated now'); }, 500);
+};
+window.openTopMatchReveal=function(){
+  var p=document.getElementById('topMatchPopup');
+  if(p) p.style.display='none';
+  goScreen('sc-match');
+};
 
 // ── TRACK CAROUSEL ────────────────────────────────────────────
 var TRACKS = [
@@ -2069,17 +2378,19 @@ setTimeout(function(){showToast('🔊','Kettama track trending nearby','12 of yo
 setTimeout(function(){showToast('✨','new match nearby','Amara S. · 59% · harlem · just arrived');},26000);
 
 // ── RUN ALL ───────────────────────────────────────────────────
-buildCarousel();
-buildDiscoverList();
-buildDiscoverMsgs();
-buildSearchSuggestions();
-buildFriendGroups();
-buildArtistFeed();
-initMatch();
-initDeep();
-initParties();
-initChat();
-initMessages();
+// Wrap each initializer so one failure doesn't cascade and leave later screens empty
+function _safeRun(name,fn){ try{ if(typeof fn==='function') fn(); }catch(err){ try{console.warn('[sonar init]',name,err);}catch(e){} } }
+_safeRun('buildCarousel',buildCarousel);
+_safeRun('buildDiscoverList',buildDiscoverList);
+_safeRun('buildDiscoverMsgs',buildDiscoverMsgs);
+_safeRun('buildSearchSuggestions',buildSearchSuggestions);
+_safeRun('buildFriendGroups',buildFriendGroups);
+_safeRun('buildArtistFeed',buildArtistFeed);
+_safeRun('initMatch',initMatch);
+_safeRun('initDeep',initDeep);
+_safeRun('initParties',initParties);
+_safeRun('initChat',initChat);
+_safeRun('initMessages',initMessages);
 document.querySelectorAll('.card').forEach(function(c){c.classList.add('tap-ripple');});
 
 
@@ -2987,7 +3298,16 @@ window.skipToApp = function() {
     if(id==='sc-unicorn'){setTimeout(function(){var p=document.getElementById('unicornPct');if(p&&!p._a){p._a=true;animateCounter(p,12.0,0.4,2000,'%',1);}var l=document.getElementById('unicornPlaysLeft'),r=document.getElementById('unicornPlaysRight');if(l&&!l._a){l._a=true;animateCounter(l,0,47,1200,'×',0);}if(r&&!r._a){r._a=true;animateCounter(r,0,39,1200,'×',0);}},300);}
     if(id==='sc-prof'){applyBg('coverPhoto','rooftop');applyBg('avatarPhoto','avatar');}
     if(id==='sc-zara'){applyBg('zaraAvatar','g2_woman5');}
-    if(id==='sc-party'){var pc=document.getElementById('partyCards');if(pc&&pc.children.length===0&&typeof initParties==='function')initParties();}
+    if(id==='sc-party'){
+      try{
+        var pc=document.getElementById('partyCards');
+        var gc=document.getElementById('partyChatMsgs');
+        // Re-run initParties if EITHER container is empty (defensive: if a prior error killed the first run)
+        if((pc&&pc.children.length===0)||(gc&&gc.children.length===0)){
+          if(typeof initParties==='function') initParties();
+        }
+      }catch(e){ try{console.warn('[sonar sc-party]',e);}catch(_){} }
+    }
     if(id==='sc-music'){if(typeof initMusicFeed==='function')initMusicFeed();}
   };
 })();
