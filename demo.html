@@ -38,6 +38,8 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
 .scr{display:none;flex-direction:column;}
 .scr.on{display:flex;}
+/* sc-splash hosts the four onboarding panels. On short viewports (iOS Safari w/ URL bar, ~700px) the inline min-height:820px used to overflow the phone frame and the bottom buttons got clipped with no way to scroll. Clamp to viewport + enable internal scroll on mobile. */
+@media (max-width: 420px){#sc-splash.on{min-height:100dvh !important;max-height:100dvh;overflow-y:auto;}}
 .body{flex:1;overflow-y:auto;overflow-x:hidden;}
 .body::-webkit-scrollbar{display:none;}
 .sbar{display:flex;justify-content:space-between;padding:14px 22px 0;font-size:11px;color:var(--ink3);flex-shrink:0;}
@@ -431,7 +433,7 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
   <div class="tab" onclick="goScreen('sc-msgs')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>messages</span></div>
 </div>
 </div>
-<div class="scr on" id="sc-splash" style="background:var(--ink);min-height:820px;align-items:center;justify-content:center;flex-direction:column;position:relative;overflow:hidden;">
+<div class="scr on" id="sc-splash" style="background:var(--ink);min-height:820px;align-items:center;justify-content:flex-start;flex-direction:column;position:relative;overflow-y:auto;overflow-x:hidden;padding:40px 0 32px;-webkit-overflow-scrolling:touch;">
   <div id="splashDots" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;"></div>
 
   <!-- STEP 1: LOGO (shown first) -->
@@ -876,7 +878,7 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
         share your card
       </button>
-      <button onclick="goScreen('sc-splash');showTopMatchPopup();" style="width:100%;height:44px;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:13px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:rgba(255,255,255,.75);cursor:pointer;">
+      <button onclick="resetOnboardingPanels();goScreen('sc-map');showTopMatchPopup();" style="width:100%;height:44px;background:transparent;border:1px solid rgba(255,255,255,.18);border-radius:13px;font-family:'Inter',sans-serif;font-size:13px;font-weight:600;color:rgba(255,255,255,.75);cursor:pointer;">
         reveal your top match →
       </button>
     </div>
@@ -2241,9 +2243,26 @@ window.shareProfile=function(){
 window.enterApp=function(){ dismissWelcome(); };
 
 // ── ONBOARDING ────────────────────────────────────────────────
+// Reset all onboarding panels inside sc-splash to a clean "initial" state.
+// Used by: (1) exit paths leaving onboarding (so sc-splash can't be caught
+// showing a stale ob-building behind a popup if sc-splash is ever re-shown),
+// (2) any future "restart onboarding" affordance. Restores ob-logo to its
+// original display:flex (ob-logo needs flex-column centering — using
+// display:block breaks its layout).
+window.resetOnboardingPanels=function(){
+  var logo=document.getElementById('ob-logo');
+  if(logo) logo.style.display='flex';
+  ['ob-spotify','ob-perms','ob-building'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.style.display='none';
+  });
+};
 window.obNext=function(targetId){
+  // Hide all four panels, then show target. ob-logo is the exception: it
+  // uses flex-column centering, so when it becomes the target we restore
+  // display:flex rather than display:block.
   ['ob-logo','ob-spotify','ob-perms','ob-building'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display='none';});
-  var t=document.getElementById(targetId);if(t)t.style.display='block';
+  var t=document.getElementById(targetId);
+  if(t) t.style.display = (targetId==='ob-logo') ? 'flex' : 'block';
   if(targetId==='ob-spotify')runSpotifyConnect();
   if(targetId==='ob-building')runProfileBuild();
 };
@@ -2255,18 +2274,22 @@ function runSpotifyConnect(){
   var feat=document.getElementById('obcFeat');
   var pctEl=document.getElementById('obcPct');
 
-  // smooth counter animator — climbs visibly with eased interpolation
+  // smooth counter animator — climbs visibly with eased interpolation.
+  // Stores the rAF id on the node so a re-entry cancels any in-flight loop
+  // and we don't get two frames fighting over the same textContent.
   function climb(node,from,to,dur,suffix){
     if(!node) return;
+    if(node._rafId){ cancelAnimationFrame(node._rafId); node._rafId=0; }
     var start=performance.now();
     function frame(t){
       var p=Math.min(1,(t-start)/dur);
       var ease=1-Math.pow(1-p,3);
       var v=Math.round(from+(to-from)*ease);
       node.textContent=v+(suffix||'');
-      if(p<1) requestAnimationFrame(frame);
+      if(p<1){ node._rafId=requestAnimationFrame(frame); }
+      else { node._rafId=0; }
     }
-    requestAnimationFrame(frame);
+    node._rafId=requestAnimationFrame(frame);
   }
 
   // Stages — each drives the main label, the progress bar, and a set of log lines
@@ -2324,9 +2347,11 @@ function runProfileBuild(){
   var nHrs=document.getElementById('ob-n-hours');
   var nArc=document.getElementById('ob-n-arch');
 
-  // Counter animators
+  // Counter animators — cancel any prior rAF on the node so re-entry
+  // doesn't leave two frame loops writing to the same textContent.
   function tickCounter(node,from,to,dur,suffix){
     if(!node) return;
+    if(node._rafId){ cancelAnimationFrame(node._rafId); node._rafId=0; }
     var start=performance.now();
     function frame(t){
       var p=Math.min(1,(t-start)/dur);
@@ -2334,9 +2359,10 @@ function runProfileBuild(){
       var v=Math.round(from+(to-from)*ease);
       node.textContent=v+(suffix||'');
       node.style.animation='numTick .18s ease';
-      if(p<1) requestAnimationFrame(frame);
+      if(p<1){ node._rafId=requestAnimationFrame(frame); }
+      else { node._rafId=0; }
     }
-    requestAnimationFrame(frame);
+    node._rafId=requestAnimationFrame(frame);
   }
 
   // Stage definitions — each drives the label, a step chip, a counter, a core symbol
