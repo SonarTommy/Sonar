@@ -245,6 +245,13 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
 @keyframes dnaRotX{0%{transform:rotateX(0) rotateY(0)}100%{transform:rotateX(360deg) rotateY(360deg)}}
 @keyframes pctTick{0%{opacity:0;transform:scale(.6)}60%{opacity:1;transform:scale(1.1)}100%{transform:scale(1)}}
 @keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+@keyframes obSonarOut{0%{r:30;opacity:.9;stroke-width:2}70%{opacity:.2;stroke-width:.8}100%{r:120;opacity:0;stroke-width:.2}}
+@keyframes obWaveBar{0%,100%{height:3px}50%{height:14px}}
+@keyframes obShimmer{0%{background-position:-100% 0}100%{background-position:200% 0}}
+@keyframes dotPulseScale{0%,100%{transform:scale(1);box-shadow:0 0 10px rgba(184,137,42,.7)}50%{transform:scale(1.15);box-shadow:0 0 22px rgba(184,137,42,1)}}
+@keyframes obLogIn{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:translateX(0)}}
+@keyframes permGlow{0%,100%{box-shadow:0 0 0 0 rgba(184,137,42,0)}50%{box-shadow:inset 0 0 0 1px rgba(184,137,42,.15),0 0 22px rgba(184,137,42,.08)}}
+@keyframes checkDraw{to{stroke-dashoffset:0}}
 .compile-chip{position:absolute;left:0;top:var(--y,10px);background:rgba(255,255,255,.08);border:1px solid rgba(184,137,42,.35);color:#f0d898;border-radius:8px;padding:3px 9px;font-size:10px;font-weight:600;letter-spacing:.3px;white-space:nowrap;animation:chipStream var(--d,3.5s) linear infinite var(--delay,0s);text-shadow:0 0 8px rgba(184,137,42,.4);}
 </style>
 </head>
@@ -436,7 +443,13 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
       <text x="4" y="74" font-family="'Cormorant Garant',serif" font-size="80" font-weight="700" font-style="italic" fill="white" letter-spacing="-2" style="animation:logoIn 1.1s cubic-bezier(.4,0,.2,1) both .1s;">sonar</text>
     </svg>
     <div style="font-family:'Inter',sans-serif;font-size:11px;color:rgba(255,255,255,.35);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;animation:fadeIn .8s ease both 1s;">find your people through sound</div>
-    <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:rgba(255,255,255,.75);line-height:1.45;max-width:320px;margin-bottom:24px;animation:fadeIn .8s ease both 1.1s;">music taste, mapped to a mile.<br/>find the people near you who<br/>actually listen to what you listen to.</div>
+    <div style="font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:rgba(255,255,255,.75);line-height:1.45;max-width:320px;margin-bottom:14px;animation:fadeIn .8s ease both 1.1s;">music taste, mapped to a mile.<br/>find the people near you who<br/>actually listen to what you listen to.</div>
+
+    <!-- AI framing chip -->
+    <div style="display:inline-flex;align-items:center;gap:7px;background:rgba(184,137,42,.1);border:1px solid rgba(184,137,42,.28);border-radius:999px;padding:5px 12px;margin-bottom:18px;animation:slideUp .6s ease both 1.15s;">
+      <div style="width:5px;height:5px;border-radius:50%;background:var(--gold);animation:dotPulse 1.8s ease-in-out infinite;"></div>
+      <span style="font-size:10px;color:var(--gold);letter-spacing:1.2px;text-transform:uppercase;font-weight:700;">first AI to diagnose a whole city's sound</span>
+    </div>
 
     <!-- Pre-login teaser (opt #1) — shows real-time value BEFORE sign-in -->
     <div id="splashTeaser" style="width:100%;background:linear-gradient(135deg,rgba(184,137,42,.12),rgba(107,63,160,.10));border:1px solid rgba(184,137,42,.28);border-radius:14px;padding:12px 14px;margin-bottom:18px;display:flex;align-items:center;gap:12px;animation:slideUp .6s ease both 1.2s;position:relative;overflow:hidden;">
@@ -488,43 +501,132 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
   </div>
   </div>
 
-  <!-- STEP 2: SPOTIFY CONNECTING -->
-  <div id="ob-spotify" style="display:none;position:relative;z-index:1;text-align:center;width:100%;padding:0 32px;">
-    <div style="width:72px;height:72px;border-radius:22px;background:#1DB954;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;">
-      <svg width="38" height="38" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+  <!-- STEP 2: SPOTIFY CONNECTING — living sonar emitter + AI mass-diagnosis framing -->
+  <div id="ob-spotify" style="display:none;position:relative;z-index:1;text-align:center;width:100%;padding:0 28px;">
+    <!-- LABEL ABOVE -->
+    <div style="font-size:9px;color:rgba(184,137,42,.8);letter-spacing:3.2px;text-transform:uppercase;margin-bottom:10px;animation:fadeIn .6s ease both;">sonar · now listening to you</div>
+
+    <!-- SONAR EMITTER — brand icon as the source of the waves -->
+    <div style="position:relative;width:240px;height:240px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;">
+      <!-- outermost sonar rings (SVG so sonarRing keyframe works on r) -->
+      <svg width="240" height="240" viewBox="0 0 240 240" style="position:absolute;inset:0;overflow:visible;">
+        <circle cx="120" cy="120" r="0" fill="none" stroke="rgba(184,137,42,.85)" stroke-width="1.5" style="animation:obSonarOut 2.4s ease-out infinite;"/>
+        <circle cx="120" cy="120" r="0" fill="none" stroke="rgba(184,137,42,.55)" stroke-width="1.2" style="animation:obSonarOut 2.4s ease-out infinite .6s;"/>
+        <circle cx="120" cy="120" r="0" fill="none" stroke="rgba(107,63,160,.55)" stroke-width="1" style="animation:obSonarOut 2.4s ease-out infinite 1.2s;"/>
+        <circle cx="120" cy="120" r="0" fill="none" stroke="rgba(29,185,84,.4)" stroke-width=".8" style="animation:obSonarOut 2.4s ease-out infinite 1.8s;"/>
+      </svg>
+
+      <!-- rotating dashed aura -->
+      <div style="position:absolute;width:180px;height:180px;border-radius:50%;border:1px dashed rgba(184,137,42,.35);animation:compileRing 14s linear infinite;"></div>
+      <div style="position:absolute;width:140px;height:140px;border-radius:50%;border:1px solid rgba(107,63,160,.25);border-top-color:rgba(107,63,160,.85);animation:compileRingR 6s linear infinite;"></div>
+
+      <!-- orbiting sonar satellites -->
+      <div style="position:absolute;width:160px;height:160px;animation:compileRing 5s linear infinite;">
+        <div style="position:absolute;top:-4px;left:50%;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px rgba(184,137,42,.9);transform:translateX(-50%);"></div>
+      </div>
+      <div style="position:absolute;width:200px;height:200px;animation:compileRingR 8s linear infinite;">
+        <div style="position:absolute;top:-3px;left:50%;width:5px;height:5px;border-radius:50%;background:#c4a6ff;box-shadow:0 0 8px rgba(196,166,255,.8);transform:translateX(-50%);"></div>
+      </div>
+
+      <!-- CENTRAL BRAND DISC — Spotify green with Sonar gold dot layered on -->
+      <div style="position:relative;width:86px;height:86px;border-radius:50%;background:#1DB954;display:flex;align-items:center;justify-content:center;box-shadow:0 0 36px rgba(29,185,84,.55),0 0 80px rgba(184,137,42,.35);animation:breathe 2.8s ease-in-out infinite;z-index:2;">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="white"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        <!-- tiny Sonar gold dot bottom-right corner overlay -->
+        <div style="position:absolute;bottom:-2px;right:-2px;width:24px;height:24px;border-radius:50%;background:var(--ink);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;box-shadow:0 0 16px rgba(184,137,42,.85);animation:dotPulseScale 1.6s ease-in-out infinite;">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></div>
+        </div>
+      </div>
+
+      <!-- inbound signal particles rising (bottom) -->
+      <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:56px;height:16px;display:flex;gap:2px;align-items:flex-end;justify-content:center;opacity:.85;">
+        <div style="width:2px;background:var(--gold);border-radius:1px;animation:obWaveBar 1s ease-in-out infinite;"></div>
+        <div style="width:2px;background:var(--gold);border-radius:1px;animation:obWaveBar 1s ease-in-out infinite .1s;"></div>
+        <div style="width:2px;background:#c4a6ff;border-radius:1px;animation:obWaveBar 1s ease-in-out infinite .2s;"></div>
+        <div style="width:2px;background:var(--gold);border-radius:1px;animation:obWaveBar 1s ease-in-out infinite .3s;"></div>
+        <div style="width:2px;background:#1DB954;border-radius:1px;animation:obWaveBar 1s ease-in-out infinite .4s;"></div>
+        <div style="width:2px;background:var(--gold);border-radius:1px;animation:obWaveBar 1s ease-in-out infinite .5s;"></div>
+        <div style="width:2px;background:#c4a6ff;border-radius:1px;animation:obWaveBar 1s ease-in-out infinite .6s;"></div>
+        <div style="width:2px;background:var(--gold);border-radius:1px;animation:obWaveBar 1s ease-in-out infinite .7s;"></div>
+      </div>
     </div>
-    <div style="font-family:'Instrument Serif',serif;font-size:28px;font-weight:700;color:white;margin-bottom:8px;">connecting Spotify</div>
-    <div style="font-size:13px;color:rgba(255,255,255,.45);margin-bottom:36px;">reading your listening history to build your sonic identity</div>
-    <!-- animated progress -->
-    <div style="background:rgba(255,255,255,.1);border-radius:8px;height:6px;overflow:hidden;margin-bottom:14px;">
-      <div id="ob-progress-bar" style="height:100%;background:linear-gradient(90deg,#1DB954,var(--gold));border-radius:8px;width:0%;transition:width .4s ease;"></div>
+
+    <!-- TITLE + KINETIC ROTATING SUBLABEL -->
+    <div style="font-family:'Instrument Serif',serif;font-size:30px;font-weight:700;color:white;margin-bottom:4px;line-height:1;">reading your sound</div>
+    <div id="ob-progress-label" style="font-size:12px;color:rgba(240,216,152,.75);margin-bottom:18px;letter-spacing:.2px;font-style:italic;min-height:15px;">pulling 12 months of listening history...</div>
+
+    <!-- LIVE STAT TICKER — three counters that visibly climb -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;">
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(184,137,42,.22);border-radius:12px;padding:10px 6px;">
+        <div id="obcPlays" class="serif" style="font-size:20px;font-weight:700;color:var(--gold);line-height:1;">0</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);margin-top:3px;letter-spacing:.6px;">plays scanned</div>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(107,63,160,.28);border-radius:12px;padding:10px 6px;">
+        <div id="obcFeat" class="serif" style="font-size:20px;font-weight:700;color:#c4a6ff;line-height:1;">0</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);margin-top:3px;letter-spacing:.6px;">audio features</div>
+      </div>
+      <div style="background:rgba(255,255,255,.04);border:1px solid rgba(29,185,84,.28);border-radius:12px;padding:10px 6px;">
+        <div id="obcPct" class="serif" style="font-size:20px;font-weight:700;color:#6ee7a8;line-height:1;">0%</div>
+        <div style="font-size:9px;color:rgba(255,255,255,.45);margin-top:3px;letter-spacing:.6px;">mapped</div>
+      </div>
     </div>
-    <div id="ob-progress-label" style="font-size:12px;color:rgba(255,255,255,.4);margin-bottom:48px;">analysing top artists...</div>
-    <div style="display:flex;flex-direction:column;gap:10px;" id="ob-steps"></div>
+
+    <!-- AI MASS-DIAGNOSIS FRAMING CARD — first-time pitch -->
+    <div style="background:linear-gradient(135deg,rgba(184,137,42,.09),rgba(107,63,160,.09));border:1px solid rgba(184,137,42,.22);border-radius:13px;padding:11px 13px;margin-bottom:14px;text-align:left;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(184,137,42,.06),transparent);background-size:200% 100%;animation:obShimmer 3.5s ease-in-out infinite;pointer-events:none;"></div>
+      <div style="display:flex;align-items:flex-start;gap:9px;position:relative;z-index:1;">
+        <div style="font-size:14px;flex-shrink:0;padding-top:1px;">✨</div>
+        <div>
+          <div style="font-size:10px;color:var(--gold);letter-spacing:1.3px;text-transform:uppercase;font-weight:700;margin-bottom:3px;">first of its kind</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.78);line-height:1.55;">Sonar is the first AI reading music the way you actually <em style="color:white;">live</em> it — not just what you play, but when, where, and what comes next. It's extrapolating your taste across <span style="color:var(--gold);font-weight:700;">47 dimensions</span> no other app sees.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRESS BAR + ROLLING LOG OF FINDINGS -->
+    <div style="background:rgba(255,255,255,.08);border-radius:8px;height:5px;overflow:hidden;margin-bottom:12px;">
+      <div id="ob-progress-bar" style="height:100%;background:linear-gradient(90deg,#1DB954 0%,var(--gold) 60%,#c4a6ff 100%);border-radius:8px;width:0%;transition:width .5s cubic-bezier(.4,0,.2,1);"></div>
+    </div>
+
+    <!-- ROLLING LOG — 2026-ish "AI at work" live findings -->
+    <div id="ob-steps" style="height:62px;overflow:hidden;position:relative;border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);text-align:left;padding:4px 2px;"></div>
   </div>
 
-  <!-- STEP 3: PERMISSIONS -->
+  <!-- STEP 3: PERMISSIONS — living interface, ambient sonar, breathing cards -->
   <div id="ob-perms" style="display:none;position:relative;z-index:1;text-align:left;width:100%;padding:0 24px;">
-    <div style="font-family:'Instrument Serif',serif;font-size:32px;font-weight:700;color:white;margin-bottom:6px;text-align:center;">one more thing</div>
-    <div style="font-size:13px;color:rgba(255,255,255,.45);text-align:center;margin-bottom:32px;">sonar works in the background, silently. here is what we need.</div>
-    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:32px;">
-      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;">
-        <div style="width:40px;height:40px;border-radius:12px;background:rgba(184,137,42,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">📍</div>
-        <div style="flex:1;"><div style="font-size:14px;color:white;font-weight:600;margin-bottom:2px;">location — while using</div><div style="font-size:11px;color:rgba(255,255,255,.4);">to find nearby matches. never stored or shared.</div></div>
-        <div style="width:22px;height:22px;border-radius:6px;background:#1DB954;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+    <!-- faint sonar echo behind header -->
+    <div style="position:relative;text-align:center;margin-bottom:6px;height:60px;">
+      <svg width="150" height="60" viewBox="0 0 150 60" style="position:absolute;left:50%;top:0;transform:translateX(-50%);overflow:visible;opacity:.55;">
+        <circle cx="75" cy="30" r="0" fill="none" stroke="rgba(184,137,42,.7)" style="animation:sonarRing 2.6s ease-out infinite;"/>
+        <circle cx="75" cy="30" r="0" fill="none" stroke="rgba(184,137,42,.45)" style="animation:sonarRing 2.6s ease-out infinite .8s;"/>
+        <circle cx="75" cy="30" r="3" fill="var(--gold)" style="animation:dotPulse 2.6s ease-in-out infinite;"/>
+      </svg>
+    </div>
+    <div style="font-family:'Instrument Serif',serif;font-size:32px;font-weight:700;color:white;margin-bottom:6px;text-align:center;animation:fadeIn .5s ease both;">one more thing</div>
+    <div style="font-size:13px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px;animation:fadeIn .5s ease both .1s;">sonar works in the background, silently. here is what it needs to learn.</div>
+    <!-- AI mass-diagnosis framing -->
+    <div style="font-size:11px;color:rgba(240,216,152,.8);text-align:center;margin-bottom:22px;font-style:italic;max-width:300px;margin-left:auto;margin-right:auto;line-height:1.55;animation:fadeIn .5s ease both .2s;">these three signals are what let the AI diagnose your sonic identity in real time — no one has combined them like this before.</div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(184,137,42,.18);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;animation:slideUp .5s ease both .25s,permGlow 4s ease-in-out infinite .25s;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(184,137,42,.04),transparent);background-size:200% 100%;animation:obShimmer 6s ease-in-out infinite;pointer-events:none;"></div>
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(184,137,42,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;animation:breathe 3s ease-in-out infinite;position:relative;z-index:1;">📍</div>
+        <div style="flex:1;position:relative;z-index:1;"><div style="font-size:14px;color:white;font-weight:600;margin-bottom:2px;">location — while using</div><div style="font-size:11px;color:rgba(255,255,255,.45);">pinpoints matches within a mile. never stored or shared.</div></div>
+        <div style="width:24px;height:24px;border-radius:7px;background:#1DB954;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 14px rgba(29,185,84,.5);position:relative;z-index:1;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-dasharray="30" stroke-dashoffset="30" style="animation:checkDraw .5s ease forwards .6s;"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
-      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;">
-        <div style="width:40px;height:40px;border-radius:12px;background:rgba(107,63,160,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">🔔</div>
-        <div style="flex:1;"><div style="font-size:14px;color:white;font-weight:600;margin-bottom:2px;">notifications</div><div style="font-size:11px;color:rgba(255,255,255,.4);">when a high match is nearby. only when it matters.</div></div>
-        <div style="width:22px;height:22px;border-radius:6px;background:#1DB954;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(107,63,160,.22);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;animation:slideUp .5s ease both .4s,permGlow 4s ease-in-out infinite .8s;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(107,63,160,.04),transparent);background-size:200% 100%;animation:obShimmer 6s ease-in-out infinite 1.2s;pointer-events:none;"></div>
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(107,63,160,.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;animation:breathe 3s ease-in-out infinite .4s;position:relative;z-index:1;">🔔</div>
+        <div style="flex:1;position:relative;z-index:1;"><div style="font-size:14px;color:white;font-weight:600;margin-bottom:2px;">notifications</div><div style="font-size:11px;color:rgba(255,255,255,.45);">only when a high match is close. not a feed, a signal.</div></div>
+        <div style="width:24px;height:24px;border-radius:7px;background:#1DB954;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 14px rgba(29,185,84,.5);position:relative;z-index:1;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-dasharray="30" stroke-dashoffset="30" style="animation:checkDraw .5s ease forwards .8s;"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
-      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;">
-        <div style="width:40px;height:40px;border-radius:12px;background:rgba(26,122,74,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;">🎵</div>
-        <div style="flex:1;"><div style="font-size:14px;color:white;font-weight:600;margin-bottom:2px;">Spotify — background sync</div><div style="font-size:11px;color:rgba(255,255,255,.4);">continuous profile updates. your identity evolves as you listen.</div></div>
-        <div style="width:22px;height:22px;border-radius:6px;background:#1DB954;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div style="background:rgba(255,255,255,.06);border:1px solid rgba(26,122,74,.25);border-radius:14px;padding:16px;display:flex;align-items:center;gap:14px;animation:slideUp .5s ease both .55s,permGlow 4s ease-in-out infinite 1.4s;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(29,185,84,.04),transparent);background-size:200% 100%;animation:obShimmer 6s ease-in-out infinite 2.4s;pointer-events:none;"></div>
+        <div style="width:40px;height:40px;border-radius:12px;background:rgba(26,122,74,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:18px;animation:breathe 3s ease-in-out infinite .8s;position:relative;z-index:1;">🎵</div>
+        <div style="flex:1;position:relative;z-index:1;"><div style="font-size:14px;color:white;font-weight:600;margin-bottom:2px;">Spotify — background sync</div><div style="font-size:11px;color:rgba(255,255,255,.45);">continuous diagnosis. your identity evolves as you listen.</div></div>
+        <div style="width:24px;height:24px;border-radius:7px;background:#1DB954;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 0 14px rgba(29,185,84,.5);position:relative;z-index:1;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-dasharray="30" stroke-dashoffset="30" style="animation:checkDraw .5s ease forwards 1s;"><polyline points="20 6 9 17 4 12"/></svg></div>
       </div>
     </div>
-    <button onclick="obNext('ob-building')" style="width:100%;height:52px;background:var(--gold);border:none;border-radius:15px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#1A1A2E;cursor:pointer;">allow all and continue</button>
+    <button onclick="obNext('ob-building')" style="width:100%;height:52px;background:var(--gold);border:none;border-radius:15px;font-family:'Inter',sans-serif;font-size:15px;font-weight:700;color:#1A1A2E;cursor:pointer;box-shadow:0 8px 24px rgba(184,137,42,.3);animation:slideUp .5s ease both .7s,pulseGlowBig 2.4s ease-in-out infinite 1.4s;">allow all and continue</button>
   </div>
 
   <!-- STEP 4: BUILDING PROFILE — DATA COMPILATION ANIMATION -->
@@ -2148,15 +2250,67 @@ window.obNext=function(targetId){
 function runSpotifyConnect(){
   var bar=document.getElementById('ob-progress-bar');
   var lbl=document.getElementById('ob-progress-label');
-  var se=document.getElementById('ob-steps');
-  var stages=[{pct:20,label:'analysing top artists...',icon:'🎤'},{pct:45,label:'mapping genre fingerprint...',icon:'🔊'},{pct:65,label:'reading listening patterns...',icon:'📊'},{pct:82,label:'calculating sonic archetype...',icon:'🎭'},{pct:100,label:'spotify connected',icon:'✓'}];
+  var logEl=document.getElementById('ob-steps');
+  var plays=document.getElementById('obcPlays');
+  var feat=document.getElementById('obcFeat');
+  var pctEl=document.getElementById('obcPct');
+
+  // smooth counter animator — climbs visibly with eased interpolation
+  function climb(node,from,to,dur,suffix){
+    if(!node) return;
+    var start=performance.now();
+    function frame(t){
+      var p=Math.min(1,(t-start)/dur);
+      var ease=1-Math.pow(1-p,3);
+      var v=Math.round(from+(to-from)*ease);
+      node.textContent=v+(suffix||'');
+      if(p<1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  // Stages — each drives the main label, the progress bar, and a set of log lines
+  // that scroll through the "AI at work" panel. The counters climb in parallel.
+  var stages=[
+    {pct:18, label:'pulling 12 months of listening history...',     logs:['↻ spotify auth · granted','♫ scanning 847 unique artists','⟳ reading 12,400+ plays']},
+    {pct:42, label:'mapping genre fingerprint across 47 dimensions...', logs:['〰 tempo signature: 118–132 BPM','◐ valence/energy/danceability mapped','⚡ rare artist: Kiki Valjiic (top 0.3%)']},
+    {pct:66, label:'extrapolating context — when, where, what next...', logs:['◉ peak window detected: 11pm–2am','➜ transition pattern: R&B → house','⌬ 23 nearby users cross-referenced']},
+    {pct:88, label:'comparing against 400,000 sonic fingerprints...',   logs:['◑ matching against population model','◒ clustering archetype: Night Architect','▲ 22 compatible listeners within 1 mile']},
+    {pct:100,label:'sonic identity compiled',                            logs:['✓ archetype: Night Architect #0031','✓ 94% match found nearby','✓ ready']}
+  ];
+
   var i=0;
+  // drive counters independently so they feel live
+  climb(plays,0,12413,4200);
+  climb(feat,0,47,4200);
+  climb(pctEl,0,100,4500,'%');
+
+  function appendLogLines(lines){
+    if(!logEl) return;
+    lines.forEach(function(line,idx){
+      setTimeout(function(){
+        var row=document.createElement('div');
+        row.style.cssText='font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.2px;padding:2px 4px;animation:obLogIn .3s ease both;font-family:\'Inter\',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
+        row.innerHTML=line;
+        logEl.appendChild(row);
+        // keep only last 3 visible; older rows fade out and remove
+        while(logEl.children.length>3){
+          var old=logEl.firstChild;
+          old.style.transition='opacity .3s ease';
+          old.style.opacity='0';
+          (function(o){setTimeout(function(){if(o.parentNode)o.parentNode.removeChild(o);},300);})(old);
+        }
+      }, idx*220);
+    });
+  }
+
   function next(){
-    if(i>=stages.length){setTimeout(function(){obNext('ob-perms');},600);return;}
+    if(i>=stages.length){setTimeout(function(){obNext('ob-perms');},900);return;}
     var st=stages[i++];
-    if(bar)bar.style.width=st.pct+'%';if(lbl)lbl.textContent=st.label;
-    if(se){var r=document.createElement('div');r.style.cssText='display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);animation:slideUp .3s ease both;';r.innerHTML='<span style="font-size:16px;flex-shrink:0;">'+st.icon+'</span><span style="font-size:13px;color:rgba(255,255,255,.7);">'+st.label+'</span>'+(st.pct===100?'<span style="margin-left:auto;font-size:12px;color:#1DB954;font-weight:600;">done</span>':'<span style="margin-left:auto;width:12px;height:12px;border:1.5px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin 1s linear infinite;"></span>');se.appendChild(r);}
-    setTimeout(next,700);
+    if(bar) bar.style.width=st.pct+'%';
+    if(lbl){ lbl.textContent=st.label; lbl.style.animation='none'; void lbl.offsetWidth; lbl.style.animation='fadeIn .4s ease both'; }
+    appendLogLines(st.logs);
+    setTimeout(next, st.pct===100 ? 700 : 900);
   }
   setTimeout(next,400);
 }
