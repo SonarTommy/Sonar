@@ -372,7 +372,7 @@ html,body{background:#E2DDD4;font-family:'Inter',sans-serif;color:var(--ink);min
       <div style="flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:11px;padding:9px;text-align:center;"><div class="serif" style="font-size:17px;color:var(--green);">2.1M</div><div style="font-size:9px;color:rgba(255,255,255,.35);margin-top:1px;">tracks</div></div>
     </div>
     <button onclick="enterApp()" style="width:100%;height:52px;background:var(--gold);border:none;border-radius:16px;font-family:'Inter',sans-serif;font-size:16px;font-weight:700;color:#1A1A2E;cursor:pointer;letter-spacing:.3px;">find your people</button>
-    <div style="font-size:11px;color:rgba(255,255,255,.2);margin-top:10px;">disappears in 5 seconds</div>
+    <div data-countdown style="font-size:11px;color:rgba(255,255,255,.2);margin-top:10px;">disappears in 5 seconds</div>
   </div>
 
 </div>
@@ -2316,12 +2316,15 @@ function runSpotifyConnect(){
         row.style.cssText='font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.2px;padding:2px 4px;animation:obLogIn .3s ease both;font-family:\'Inter\',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;';
         row.innerHTML=line;
         logEl.appendChild(row);
-        // keep only last 3 visible; older rows fade out and remove
+        // Keep only last 3 visible. CRITICAL: removal MUST be synchronous —
+        // the previous version deferred removeChild via setTimeout(300ms),
+        // but the while condition (children.length>3) still evaluated against
+        // the un-pruned DOM on every loop iteration, so the loop spun forever
+        // the moment the 4th row was appended, freezing the tab. If a soft
+        // fade-out is wanted it must be applied BEFORE the append (to the
+        // outgoing node) or done via CSS leave-animation, not mid-loop.
         while(logEl.children.length>3){
-          var old=logEl.firstChild;
-          old.style.transition='opacity .3s ease';
-          old.style.opacity='0';
-          (function(o){setTimeout(function(){if(o.parentNode)o.parentNode.removeChild(o);},300);})(old);
+          logEl.removeChild(logEl.firstChild);
         }
       }, idx*220);
     });
